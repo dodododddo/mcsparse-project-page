@@ -1,0 +1,10 @@
+# Local files and credentials
+.DS_Store
+._*
+node_modules/
+.env
+.env.*
+!.env.example
+*.log
+work/
+outputs/

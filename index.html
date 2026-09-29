@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fbfaf8">
+  <meta name="description" content="MC-Sparse: Meta-Cached Sparse Attention for diffusion transformers. Explore videos generated with MC-Sparse and interactive 3D comparisons with dense attention.">
+  <title>MC-Sparse — Meta-Cached Sparse Attention</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="styles.css">
+  <script type="importmap">{"imports":{"three":"./vendor/build/three.module.js","three/addons/":"./vendor/examples/jsm/"}}</script>
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#videos">Skip to results</a>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#" aria-label="MC-Sparse home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>MC-Sparse</a>
+      <div class="nav-links"><a href="#videos">Videos</a><a href="#geometry">3D assets</a><a href="#method">Method</a><a href="#results">Results</a></div>
+      <a class="nav-paper" href="assets/paper.pdf" target="_blank" rel="noopener">Read the paper <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero wrap" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="status-dot"></span> META-CACHED SPARSE ATTENTION</div>
+      <h1 id="page-title">MC-Sparse<span class="title-dot">.</span></h1>
+      <h2>Deconstructing and Closing the Dense–Sparse<br class="desktop-break"> Attention Gap in Diffusion Transformers</h2>
+      <p class="hero-summary">Dense-level fidelity. A fraction of the attention.<br>A training-free framework for faster video and 3D generation.</p>
+      <p class="authors">Anonymous authors <span>·</span> Under review</p>
+      <div class="hero-actions"><a class="button primary" href="assets/paper.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Paper <span>↗</span></a><a class="button secondary" href="#videos">Explore the results <span>↓</span></a></div>
+      <div class="headline-metrics">
+        <div><strong>1.80<span>×</span></strong><span>Video denoising speedup</span><small>MiniMax-H3-Base</small></div>
+        <div><strong>2.32<span>×</span></strong><span>3D denoising speedup</span><small>HY3D-Internal</small></div>
+        <div><strong>15<span>%</span></strong><span>Attention density</span><small>For both results above</small></div>
+        <div><strong class="metric-text">Training<span>-</span>free</strong><span>Drop-in acceleration</span><small>No model retraining</small></div>
+      </div>
+      <div class="teaser-toolbar"><span>MiniMax-H3-Base</span><div class="segmented" aria-label="Teaser display mode"><button data-teaser-mode="ours" aria-pressed="false">Ours</button><button data-teaser-mode="split" aria-pressed="true">↔ Dense vs. Ours</button></div></div>
+      <div class="hero-demo" id="hero-demo"></div>
+      <p class="figure-caption"><span class="mini-dot"></span> MiniMax-H3-Base · 15% attention density <span class="caption-right" id="teaser-caption-detail">Drag the divider to compare.</span></p>
+    </section>
+
+    <section class="section wrap" id="videos" aria-labelledby="video-heading">
+      <div class="section-heading"><div><p class="section-kicker">01 / VIDEO GENERATION</p><h2 id="video-heading">Every frame. Every detail.</h2></div><p>Explore motion, texture, and temporal consistency.<br>Selected MiniMax-H3 results generated with MC-Sparse.</p></div>
+      <div id="video-gallery" role="region" aria-label="MC-Sparse video gallery"></div>
+      <p class="prompt-credit">Some prompts are borrowed from <strong>VDN-H3</strong>.</p>
+    </section>
+
+    <section class="geometry-section" id="geometry" aria-labelledby="geometry-heading"><div class="wrap">
+      <div class="section-heading"><div><p class="section-kicker">02 / 3D ASSET GENERATION</p><h2 id="geometry-heading">Less compute.<br>All the little things.</h2></div><p>Fine structures, continuous surfaces, intricate geometry.<br>Inspect the original meshes from a shared viewpoint.</p></div>
+      <div id="mesh-gallery"></div>
+      <div class="geometry-stats"><p><strong>2.32×</strong> denoising speedup</p><p><strong>15%</strong> attention density</p><p><strong>96.33</strong> F1 @ 0.001</p><span>HY3D-Internal · Table 2</span></div>
+    </div></section>
+
+    <section class="section wrap method-section" id="method" aria-labelledby="method-heading">
+      <div class="section-heading"><div><p class="section-kicker">03 / THE IDEA</p><h2 id="method-heading">Select precisely.<br>Reuse intelligently.</h2></div><p>What separates sparse attention from dense attention?<br>Three sources of error. One coordinated design.</p></div>
+      <div class="method-intro"><p>Sparse attention is fast, but discarding interactions can change what a model generates. Our controlled oracle comparisons trace this gap to <strong>structural binding</strong>, <strong>inaccurate selection</strong>, and <strong>discarded tail contributions</strong>.</p><p>MC-Sparse addresses all three: select individual KV tokens, group similar queries into GPU-aligned tiles, and reuse exact selections with a cached residual across denoising steps.</p></div>
+      <div class="principles">
+        <article>
+          <span class="principle-number">01</span>
+          <div class="method-diagram">
+            <svg viewBox="0 0 268 132" role="img" aria-labelledby="grouping-title grouping-desc">
+              <title id="grouping-title">Group similar queries into equal-size GPU tiles</title>
+              <desc id="grouping-desc">Colored circles represent queries. They are reordered so similar queries share an equal-size group. Colors illustrate similarity, not measured attention values.</desc>
+              <text x="0" y="13" class="diagram-label">Queries</text><text x="139" y="13" class="diagram-label">Equal-size groups</text>
+              <g class="query-a"><circle cx="12" cy="42" r="6"/><circle cx="48" cy="63" r="6"/><circle cx="30" cy="84" r="6"/><circle cx="66" cy="84" r="6"/></g>
+              <g class="query-b"><circle cx="30" cy="42" r="6"/><circle cx="66" cy="42" r="6"/><circle cx="12" cy="63" r="6"/><circle cx="48" cy="84" r="6"/></g>
+              <g class="query-c"><circle cx="48" cy="42" r="6"/><circle cx="30" cy="63" r="6"/><circle cx="66" cy="63" r="6"/><circle cx="12" cy="84" r="6"/></g>
+              <path class="diagram-arrow" d="M88 63h32m-6-5 6 5-6 5"/>
+              <g class="tile-outline"><rect x="137" y="27" width="117" height="23" rx="5"/><rect x="137" y="52" width="117" height="23" rx="5"/><rect x="137" y="77" width="117" height="23" rx="5"/></g>
+              <g class="query-a"><circle cx="155" cy="38.5" r="6"/><circle cx="181" cy="38.5" r="6"/><circle cx="207" cy="38.5" r="6"/><circle cx="233" cy="38.5" r="6"/></g>
+              <g class="query-b"><circle cx="155" cy="63.5" r="6"/><circle cx="181" cy="63.5" r="6"/><circle cx="207" cy="63.5" r="6"/><circle cx="233" cy="63.5" r="6"/></g>
+              <g class="query-c"><circle cx="155" cy="88.5" r="6"/><circle cx="181" cy="88.5" r="6"/><circle cx="207" cy="88.5" r="6"/><circle cx="233" cy="88.5" r="6"/></g>
+              <text x="0" y="122" class="diagram-note">Color = query similarity</text><text x="139" y="122" class="diagram-note">One row = one GPU tile</text>
+            </svg>
+          </div>
+          <h3>Group similar queries</h3>
+          <p>Fast PDDP puts similar queries into equal-size, GPU-aligned groups. Each group shares a KV selection, reducing disagreement within a group.</p>
+          <span class="principle-tag">Reduce query binding</span>
+        </article>
+        <article>
+          <span class="principle-number">02</span>
+          <div class="method-diagram">
+            <svg viewBox="0 0 268 132" role="img" aria-labelledby="selection-title selection-desc">
+              <title id="selection-title">Select individual KV tokens using exact attention mass</title>
+              <desc id="selection-desc">Bars illustrate the exact attention mass aggregated over a query group. The purple bars identify the highest-scoring individual KV tokens. Their indices are cached for reuse.</desc>
+              <text x="0" y="13" class="diagram-label">Exact attention mass per KV token</text>
+              <g class="score-discarded"><rect x="33" y="61" width="20" height="15" rx="3"/><rect x="65" y="50" width="20" height="26" rx="3"/><rect x="129" y="66" width="20" height="10" rx="3"/><rect x="161" y="57" width="20" height="19" rx="3"/><rect x="225" y="62" width="20" height="14" rx="3"/></g>
+              <g class="score-selected"><rect x="1" y="27" width="20" height="49" rx="3"/><rect x="97" y="38" width="20" height="38" rx="3"/><rect x="193" y="32" width="20" height="44" rx="3"/></g>
+              <g class="kv-cell"><rect x="1" y="82" width="20" height="15" rx="3"/><rect x="33" y="82" width="20" height="15" rx="3"/><rect x="65" y="82" width="20" height="15" rx="3"/><rect x="97" y="82" width="20" height="15" rx="3"/><rect x="129" y="82" width="20" height="15" rx="3"/><rect x="161" y="82" width="20" height="15" rx="3"/><rect x="193" y="82" width="20" height="15" rx="3"/><rect x="225" y="82" width="20" height="15" rx="3"/></g>
+              <g class="kv-kept"><rect x="1" y="82" width="20" height="15" rx="3"/><rect x="97" y="82" width="20" height="15" rx="3"/><rect x="193" y="82" width="20" height="15" rx="3"/></g>
+              <rect x="1" y="114" width="7" height="7" rx="2" class="score-selected"/><text x="14" y="121" class="diagram-note">Keep top-K tokens</text><rect x="136" y="114" width="7" height="7" rx="2" class="score-discarded"/><text x="149" y="121" class="diagram-note">Discard the rest</text>
+            </svg>
+          </div>
+          <h3>Select individual KV tokens</h3>
+          <p>Rank individual KV tokens using exact attention mass at anchor steps. Select the top-K across block boundaries, then cache their indices for reuse.</p>
+          <span class="principle-tag">Finer selection · Exact scores</span>
+        </article>
+        <article>
+          <span class="principle-number">03</span>
+          <div class="method-diagram residual-diagram" role="img" aria-label="At an anchor step, cache residual R as dense output minus sparse output. At a reuse step, add this residual to the current sparse output.">
+            <div><span class="diagram-label">Anchor step · cache the difference</span><div class="equation-row"><span>O<sub>dense</sub></span><b>−</b><span>O<sub>sparse</sub></span><b>=</b><span class="equation-cache">R</span></div></div>
+            <div><span class="diagram-label">Reuse step · add it back</span><div class="equation-row"><span>O<sub>sparse, t</sub></span><b>+</b><span class="equation-cache">R<sub>cached</sub></span><b>→</b><span>Ô<sub>t</sub></span></div></div>
+          </div>
+          <h3>Add the cached residual</h3>
+          <p>Cache the dense–sparse output difference at an anchor step. Add it to later sparse outputs to compensate for discarded contributions. Q, K, and V stay fresh.</p>
+          <span class="principle-tag">Compensate for the discarded tail</span>
+        </article>
+      </div>
+      <p class="method-diagram-note">Schematic illustrations. O denotes an attention output; R is the cached dense–sparse residual.</p>
+      <figure class="method-figure"><div class="figure-topline"><span>THE MC-SPARSE PIPELINE</span><a href="assets/paper.pdf#page=6" target="_blank" rel="noopener">Section 4.4 <span>↗</span></a></div><img src="assets/figures/method.png" alt="At an anchor step, MC-Sparse computes query groups, exact KV indices, and a dense-minus-sparse residual. Reuse steps use this metadata with fresh Q, K, and V, then add the residual." loading="lazy"><figcaption>Cache the metadata. Recompute the attention with current Q, K, and V.</figcaption></figure>
+    </section>
+
+    <section class="results-section section" id="results" aria-labelledby="results-heading"><div class="wrap">
+      <div class="section-heading"><div><p class="section-kicker">04 / QUANTITATIVE RESULTS</p><h2 id="results-heading">The fidelity–efficiency balance.</h2></div><p>Higher fidelity to dense-attention outputs.<br>Faster denoising across video and 3D generation.</p></div>
+      <div class="results-layout"><div class="speed-chart"><span class="chart-eyebrow">MINIMAX-H3-BASE · DENOISING SPEEDUP</span><h3>Same model.<br>Less waiting.</h3><div class="bar-item"><div><span>Dense attention</span><strong>1.00×</strong></div><div class="bar-track"><i style="width:55.56%"></i></div></div><div class="bar-item"><div><span>MC-Sparse · 25%</span><strong>1.61×</strong></div><div class="bar-track"><i style="width:89.44%"></i></div></div><div class="bar-item featured"><div><span>MC-Sparse · 15%</span><strong>1.80×</strong></div><div class="bar-track"><i style="width:100%"></i></div></div><p>1.80× speedup <span>Relative to dense attention (FA3)</span></p></div>
+      <div class="results-table-panel"><div class="table-heading"><h3 id="table-model-title">MiniMax-H3-Base</h3><label class="sr-only" for="results-model">Results model</label><select id="results-model"><option value="minimax">MiniMax-H3</option><option value="geometry">3D generation</option></select></div><p class="table-subtitle" id="table-setting"></p><div class="table-scroll"><table id="metrics-table"></table></div></div></div>
+      <p class="results-note">Results reproduced from Tables 1–2 and Figure 1 of the paper. Speedup measures DiT denoising, including warm-up; condition encoding and VAE decoding are excluded. Video fidelity is measured against dense attention. See the paper for full settings.</p>
+    </div></section>
+
+    <section class="paper-section wrap" id="paper"><div class="paper-cover"><img src="assets/figures/paper-cover.webp" alt="First page of the MC-Sparse paper" loading="lazy"></div><div><p class="section-kicker">READ THE FULL STORY</p><h2>MC-Sparse</h2><p>Deconstructing and Closing the Dense–Sparse<br>Attention Gap in Diffusion Transformers</p><p class="paper-detail">Anonymous authors · Under review</p><a class="button primary" href="assets/paper.pdf" target="_blank" rel="noopener">Read the paper <span>↗</span></a><a class="text-link" href="assets/paper.pdf" download="MC-Sparse.pdf">Download PDF <span>↓</span></a></div></section>
+  </main>
+  <footer class="wrap"><a class="brand" href="#">MC-Sparse<span class="title-dot">.</span></a><p>Meta-Cached Sparse Attention</p><a href="#">Back to top ↑</a></footer>
+  <noscript><p class="noscript">Enable JavaScript for the video gallery and interactive 3D meshes. The paper is available as a PDF above.</p></noscript>
+</body>
+</html>

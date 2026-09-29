@@ -1,0 +1,1 @@
+{"name":"mcsparse-project-page","version":"1.0.0","private":true,"type":"module","scripts":{"start":"node server.mjs","check":"node --check app.js && node --check mesh-viewer.js && node --check video-player.js && node --check video-compare.js && node --check data.js"}}

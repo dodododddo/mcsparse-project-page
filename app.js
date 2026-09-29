@@ -27,3 +27,22 @@ const meshes=new MeshGallery($('#mesh-gallery'));
 function renderMetrics(){const value=$('#results-model').value,m=metrics[value];$('#table-model-title').textContent=m.name;$('#table-setting').textContent=m.setting;$('#metrics-table').innerHTML=`<caption class="sr-only">${m.name} quantitative results from the paper</caption><thead><tr>${(m.headers||['Method','PSNR ↑','SSIM ↑','LPIPS ↓','Density ↓','Speedup ↑']).map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${m.rows.map(r=>`<tr class="${r[0].startsWith('MC-Sparse')?'ours-row':''}">${r.map((v,i)=>i===0?`<th scope="row">${v}</th>`:`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody>`;}
 $('#results-model').addEventListener('change',renderMetrics);renderMetrics();
 window.addEventListener('pagehide',()=>{hero.pause();player?.pause();meshes.stop();});
+
+const methodVideo=$('#method-explainer');
+const methodChapterButtons=[...document.querySelectorAll('[data-method-time]')];
+methodChapterButtons.forEach(button=>button.addEventListener('click',()=>{
+ const start=Number(button.dataset.methodTime);
+ methodVideo.currentTime=start===0?0:start+.5;
+ methodVideo.play().catch(()=>methodVideo.focus());
+}));
+methodVideo.addEventListener('timeupdate',()=>{
+ const chapter=[...methodChapterButtons].reverse().find(button=>methodVideo.currentTime>=Number(button.dataset.methodTime));
+ methodChapterButtons.forEach(button=>{
+  if(button===chapter)button.setAttribute('aria-current','true');else button.removeAttribute('aria-current');
+ });
+});
+const methodVideoVisibility=new IntersectionObserver(entries=>{
+ if(!entries[0].isIntersecting)methodVideo.pause();
+},{threshold:.1});
+methodVideoVisibility.observe(methodVideo);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)methodVideo.pause();});

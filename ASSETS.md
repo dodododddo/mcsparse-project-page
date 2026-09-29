@@ -44,3 +44,7 @@ All original models are from `supp/` (the folder referred to as “sub” in the
 | 4 | Clockwork bee | `dense_case4.glb` | `ours_case4.glb` | `pisa_case4.glb` | `solattn_case4.glb` |
 
 All vertex positions and triangle indices are preserved. Browser-computed vertex normals are used for rendering because the input GLBs contain positions and indices without stored normals. Normal and clay shading apply the same material to all methods.
+
+## Original method animation
+
+The 48-second `assets/videos/method-explainer.mp4` is authored for this page from the method in Section 4 and Figure 5. `animation/render_method.py` is the editable source. The poster is `assets/posters/method-explainer.webp`; chapter titles are in `assets/videos/method-explainer.vtt`. It uses no external footage, music, or distributed fonts. All displayed attention scores and schedules are illustrative.

@@ -48,7 +48,3 @@ All original models are from `supp/` (the folder referred to as “sub” in the
 The active cases are 1, 2, 3, and 5. Case 5 replaces the former mechanical-insect example. Rendering the four supplied GLBs confirms a wolf-like armored warrior holding a spiked mace, with layered fur, shoulder armor, articulated hands, weapon spikes, and rope details. It was selected for geometric detail rather than a large difference between methods. Each method contains approximately 2 million triangles. Its reference image was matched by the pose, armor, weapon, and circular base. All four generated previews use the same camera and the Dense mesh's normalization.
 
 All vertex positions and triangle indices are preserved. Browser-computed vertex normals are used for rendering because the input GLBs contain positions and indices without stored normals. Normal and clay shading apply the same material to all methods.
-
-## Original method loop
-
-The eight-second `assets/figures/method-loop.webp` is authored for this page from the method in Section 4 and Figure 5. `animation/render_loop.py` is the editable source. The mobile version is `method-loop-mobile.webp`, and matching static WebP images support pausing and reduced motion. `method-loop.gif` is the shareable GIF. The loop uses no external footage, music, or distributed fonts. Attention scores and token counts are illustrative.

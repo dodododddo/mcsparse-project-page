@@ -27,23 +27,3 @@ const meshes=new MeshGallery($('#mesh-gallery'));
 function renderMetrics(){const value=$('#results-model').value,m=metrics[value];$('#table-model-title').textContent=m.name;$('#table-setting').textContent=m.setting;$('#metrics-table').innerHTML=`<caption class="sr-only">${m.name} quantitative results from the paper</caption><thead><tr>${(m.headers||['Method','PSNR ↑','SSIM ↑','LPIPS ↓','Density ↓','Speedup ↑']).map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${m.rows.map(r=>`<tr class="${r[0].startsWith('MC-Sparse')?'ours-row':''}">${r.map((v,i)=>i===0?`<th scope="row">${v}</th>`:`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody>`;}
 $('#results-model').addEventListener('change',renderMetrics);renderMetrics();
 window.addEventListener('pagehide',()=>{hero.pause();player?.pause();meshes.stop();});
-
-const methodLoop=$('.method-loop');
-const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
-let methodLoopPaused=motionPreference.matches;
-function updateMethodLoop(){
- methodLoop.querySelectorAll('[data-loop-src]').forEach(element=>{
-  const source=methodLoopPaused?element.dataset.stillSrc:element.dataset.loopSrc;
-  if(element.tagName==='SOURCE')element.srcset=source;else element.src=source;
- });
- const button=methodLoop.querySelector('.method-loop-toggle');
- button.textContent=methodLoopPaused?'Play animation':'Pause animation';
- button.setAttribute('aria-pressed',String(methodLoopPaused));
-}
-methodLoop.querySelector('.method-loop-toggle').addEventListener('click',()=>{
- methodLoopPaused=!methodLoopPaused;updateMethodLoop();
-});
-motionPreference.addEventListener('change',()=>{
- methodLoopPaused=motionPreference.matches;updateMethodLoop();
-});
-updateMethodLoop();

@@ -54,15 +54,6 @@
     <section class="section wrap method-section" id="method" aria-labelledby="method-heading">
       <div class="section-heading"><div><p class="section-kicker">03 / THE IDEA</p><h2 id="method-heading">Select tokens precisely.<br>Reuse across many steps.</h2></div><p>Compute exact token selections once at each anchor step.<br>Reuse them over the following denoising steps.</p></div>
       <div class="method-intro"><p>Sparse attention is fast, but discarding interactions can change what a model generates. Our controlled oracle comparisons trace this gap to <strong>structural binding</strong>, <strong>inaccurate selection</strong>, and <strong>discarded tail contributions</strong>.</p><p>MC-Sparse addresses all three: select individual KV tokens, group similar queries into GPU-aligned tiles, and reuse exact selections with a cached residual across denoising steps.</p></div>
-      <figure class="method-loop" aria-label="MC-Sparse animated method diagram">
-        <picture>
-          <source media="(prefers-reduced-motion: reduce) and (max-width: 680px)" srcset="assets/figures/method-loop-mobile-still.webp" data-loop-src="assets/figures/method-loop-mobile.webp" data-still-src="assets/figures/method-loop-mobile-still.webp">
-          <source media="(prefers-reduced-motion: reduce)" srcset="assets/figures/method-loop-still.webp" data-loop-src="assets/figures/method-loop.webp" data-still-src="assets/figures/method-loop-still.webp">
-          <source media="(max-width: 680px)" srcset="assets/figures/method-loop-mobile.webp" data-loop-src="assets/figures/method-loop-mobile.webp" data-still-src="assets/figures/method-loop-mobile-still.webp">
-          <img id="method-loop-image" src="assets/figures/method-loop.webp" data-loop-src="assets/figures/method-loop.webp" data-still-src="assets/figures/method-loop-still.webp" width="1512" height="418" loading="lazy" alt="Group similar queries and select individual KV tokens by exact attention mass. Cache query groups, token indices, and the dense–sparse residual at an anchor, then reuse them across steps with fresh Q, K, and V.">
-        </picture>
-        <figcaption><span>Exact selection at anchors. Reuse with fresh Q / K / V. <span class="loop-note">Schematic illustration.</span></span><button class="method-loop-toggle" type="button" aria-pressed="false" aria-controls="method-loop-image">Pause animation</button></figcaption>
-      </figure>
       <div class="principles">
         <article>
           <span class="principle-number">01</span>

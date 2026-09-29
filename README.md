@@ -20,7 +20,6 @@ The included server supports byte-range requests for video seeking and binds to 
 - Four selected MiniMax-H3 scenes: `new_1.mp4`, `new_2.mp4`, `new_3.mp4`, and `new_4.mp4`.
 - Prompt acknowledgment: “Some prompts are borrowed from VDN-H3.”
 - Single-video pause, restart, seek, speed, and fullscreen controls.
-- An eight-second method loop displayed directly as an image, with a responsive mobile layout and reduced-motion support.
 - Four 3D examples: winged guardian, electric guitar, sailing ship, and armored warrior (source cases 1, 2, 3, and 5), each with Dense, MC-Sparse, PISA, and Sol-Attn meshes.
 - Shared-camera mesh comparison in a default 2 × 2 layout.
 - A Dense-versus-method selector for slider comparisons with MC-Sparse, PISA, or Sol-Attn.
@@ -90,10 +89,4 @@ Three.js 0.180.0 is included locally under its MIT license in `vendor/LICENSE`. 
 
 This repository is private. GitHub Pages is not enabled. Run `npm start` to preview it locally.
 
-The repository includes the six active example videos, the method-loop images, all sixteen full-resolution GLB meshes, the paper PDF, preview images, and the local Three.js runtime. Media files use ordinary Git storage; no Git LFS download step is required.
-
-## Method animation
-
-The Method section uses a simple eight-second loop: precise token selection, anchor caching, then reuse across steps with fresh Q/K/V. It is rendered directly as an animated WebP image with no video player, timeline, or chapter bar. Desktop and mobile use separately arranged versions; a small pause link and reduced-motion preferences switch to a still image.
-
-The editable source is `animation/render_loop.py`; `animation/README.md` documents the sequence and outputs. A shareable GIF is available at `assets/figures/method-loop.gif`. All displayed attention values and token counts are schematic.
+The repository includes the six active example videos, all sixteen full-resolution GLB meshes, the paper PDF, preview images, and the local Three.js runtime. Media files use ordinary Git storage; no Git LFS download step is required.

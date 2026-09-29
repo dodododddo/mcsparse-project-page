@@ -21,7 +21,7 @@ The included server supports byte-range requests for video seeking and binds to 
 - Prompt acknowledgment: “Some prompts are borrowed from VDN-H3.”
 - Single-video pause, restart, seek, speed, and fullscreen controls.
 - A 48-second 1080p method animation with chapter jumps and an accessible text summary.
-- Four original 3D cases, each with Dense, MC-Sparse, PISA, and Sol-Attn meshes.
+- Four 3D examples: winged guardian, electric guitar, sailing ship, and armored warrior (source cases 1, 2, 3, and 5), each with Dense, MC-Sparse, PISA, and Sol-Attn meshes.
 - Shared-camera mesh comparison in a default 2 × 2 layout.
 - A Dense-versus-method selector for slider comparisons with MC-Sparse, PISA, or Sol-Attn.
 - Orbit, zoom, pan, reset, auto-rotation, normal colors, and clay shading.
@@ -41,12 +41,14 @@ The included server supports byte-range requests for video seeking and binds to 
 - `assets/paper.pdf`: the supplied `mcsparse.pdf`.
 - `assets/videos/`: original MP4 files, unchanged.
 - `assets/meshes/`: all 16 original GLB files, unchanged.
-- `assets/posters/`: video poster frames and geometry previews extracted from the supplied comparison slides.
+- `assets/posters/`: video poster frames, geometry previews from the supplied slides, and case-5 previews rendered directly from the GLBs.
 - `ASSETS.md`: source mapping and naming notes.
 
 The paper lists anonymous authors, so the page retains **Anonymous authors · Under review**. No unprovided author names, institutions, code repositories, arXiv identifiers, or publication claims have been invented.
 
 ## 3D fidelity and loading
+
+The fourth gallery entry uses case 5, an armored warrior with layered fur, armor, articulated hands, and a spiked mace. It replaces the previous mechanical-insect example. All four method meshes use their original case-5 filenames. The reference inset uses the matching warrior image from the supplied geometry materials.
 
 Each supplied GLB contains approximately 2 million triangles and is about 36 MB. Geometry is not decimated. The complete page folder is dominated by the original full-resolution meshes.
 

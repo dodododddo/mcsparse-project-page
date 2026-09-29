@@ -9,7 +9,9 @@ Input folder: the supplied `mcsparse` materials folder.
 | `assets/paper.pdf` | `mcsparse.pdf` (16 pages) |
 | `assets/figures/paper-cover.webp` | Rendered first page of `mcsparse.pdf` |
 | `assets/figures/method.png` | Rendered `mcsparse_overview.pdf` |
-| Geometry previews and reference images | Individual full-object images in `geo_vis_comparison.pptx`; method order verified against `geo_vis_comparison.pdf` |
+| Case 1–3 previews and reference images | Individual full-object images in `geo_vis_comparison.pptx`; method order verified against `geo_vis_comparison.pdf` |
+| Case 5 previews | Fresh renders of each corresponding case-5 GLB, using the same camera and normalization derived from Dense |
+| Case 5 reference | `geo_vis/微信图片_20260915152259_257_10.png`, visually matched to the case-5 warrior |
 | Headline speedups and relative-speedup chart | `mcsparse.pdf`, Figure 1 and Tables 1–2 |
 | Results selector tables | `mcsparse.pdf`, Tables 1–2 |
 
@@ -41,7 +43,9 @@ All original models are from `supp/` (the folder referred to as “sub” in the
 | 1 | Winged guardian | `dense_case1.glb` | `ours_case1.glb` | `pisa_case1.glb` | `solattn_case1.glb` |
 | 2 | Electric guitar | `dense_case2.glb` | `ours_case2.glb` | `pisa_case2.glb` | `sol_case2.glb` |
 | 3 | Sailing ship | `dense_case3.glb` | `ours_case3.glb` | `pisa_case3.glb` | `solattn_case3.glb` |
-| 4 | Clockwork bee | `dense_case4.glb` | `ours_case4.glb` | `pisa_case4.glb` | `solattn_case4.glb` |
+| 5 (fourth gallery position) | Armored warrior | `dense_case5.glb` | `ours_case5.glb` | `pisa_case5.glb` | `solattn_case5.glb` |
+
+The active cases are 1, 2, 3, and 5. Case 5 replaces the former mechanical-insect example. Rendering the four supplied GLBs confirms a wolf-like armored warrior holding a spiked mace, with layered fur, shoulder armor, articulated hands, weapon spikes, and rope details. It was selected for geometric detail rather than a large difference between methods. Each method contains approximately 2 million triangles. Its reference image was matched by the pose, armor, weapon, and circular base. All four generated previews use the same camera and the Dense mesh's normalization.
 
 All vertex positions and triangle indices are preserved. Browser-computed vertex normals are used for rendering because the input GLBs contain positions and indices without stored normals. Normal and clay shading apply the same material to all methods.
 

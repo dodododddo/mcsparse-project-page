@@ -9,10 +9,10 @@ export const videoGroups = [
 ];
 export const methods = {dense: 'Dense', ours: 'MC-Sparse (Ours)', pisa: 'PISA', sol: 'Sol-Attn'};
 export const meshCases = [
-  {id: 1, name: 'Winged guardian'},
-  {id: 2, name: 'Electric guitar'},
-  {id: 3, name: 'Sailing ship'},
-  {id: 4, name: 'Clockwork bee'}
+  {id: 1, name: 'Winged guardian', shortName: 'Guardian'},
+  {id: 2, name: 'Electric guitar', shortName: 'Guitar'},
+  {id: 3, name: 'Sailing ship', shortName: 'Ship'},
+  {id: 5, name: 'Armored warrior', shortName: 'Warrior'}
 ];
 export const metrics = {
   minimax: {name:'MiniMax-H3-Base', setting:'768p · video branch · Table 1', rows:[['Full attention','—','—','—','100%','1.00×'],['Sol-Attn','23.66','0.816','0.234','32.4%','1.59×'],['PISA','23.45','0.811','0.243','30.0%','1.52×'],['MC-Sparse · 25%','28.44','0.899','0.161','25.0%','1.61×'],['MC-Sparse · 15%','27.30','0.882','0.176','15.0%','1.80×']]},

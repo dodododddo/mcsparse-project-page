@@ -48,9 +48,6 @@
   "assets/posters/new_3.webp": "a8a5e343386022a2bb96453d273df53475508cf93f69fccfe3f1950d8b4c2928",
   "assets/videos/new_4.mp4": "8f6af271515dad1801167c513009546998e7b603a91dc1fe27da394314304c50",
   "assets/posters/new_4.webp": "cf7ae03c53115ba3ff6fda6f59b32a02d538b18f76bdb810def8d3976f61e71f",
-  "assets/videos/method-explainer.mp4": "590672f6a6c88da97a5a88a13f685c1bfbd495a9fd950741382e56e9169c5e61",
-  "assets/videos/method-explainer.vtt": "b9b4747ab2578254aee373f788414c641d595033b0b324aa9715a15a04b3542e",
-  "assets/posters/method-explainer.webp": "c06d6dfd47fbe7e7d310df2a6254202f3076a1230c453533dd1314f45bbaea4d",
   "assets/meshes/pisa_case5.glb": "b6e4c0dac9eeba062d834d7f806c7b168772b076b67a7096602fd6e0b9d1131d",
   "assets/meshes/ours_case5.glb": "ac30df198c7ace1c02e706a1cef25ae3bb266774896dd188feee992aa267bbc6",
   "assets/meshes/dense_case5.glb": "866bcb474ae416680bb0e2666441b8df5bda8c3f5dd98985a00fa40965e118d2",
@@ -59,5 +56,10 @@
   "assets/posters/mesh-5-sol.webp": "78c902920c288881f65cfd4225b4ce416c2cfa7a043a7151e2976541216d8afb",
   "assets/posters/mesh-5-ours.webp": "943d1aa096c5ad05a5544790967d079e1af1a3b013710ffe2f75af815c9023ef",
   "assets/posters/mesh-5-pisa.webp": "b314467e17bb1162549429fc631168f21f1f8934303e7d4244751a24727a1f8e",
-  "assets/posters/mesh-5-reference.webp": "292df5589197b5bbfcfa4cc2c37f2f7424b4eff4a4d9f066aecb80ab647a88da"
+  "assets/posters/mesh-5-reference.webp": "292df5589197b5bbfcfa4cc2c37f2f7424b4eff4a4d9f066aecb80ab647a88da",
+  "assets/figures/method-loop-still.webp": "a5eb10f09cd0521bd39e10bbe923b173a1ac9322894003edc395575de2a242eb",
+  "assets/figures/method-loop.webp": "39661633ec5f20106fc19082fd246cc1db14efafcc2c4c76d8811ed2688e7955",
+  "assets/figures/method-loop-mobile.webp": "511fd72a603605d383cf13fcf7f9390db842befa388216a2cfb56c5121479567",
+  "assets/figures/method-loop-mobile-still.webp": "e4163eaaef5b005f9bb910041cc6f64a16991d70cdebc9f616b46f0620b3bb4c",
+  "assets/figures/method-loop.gif": "65b009fcacb99bfd8bbec5523fd5341a759f462428428f2f85fbc1c6b207e437"
 }

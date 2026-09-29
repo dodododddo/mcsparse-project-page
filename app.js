@@ -28,21 +28,22 @@ function renderMetrics(){const value=$('#results-model').value,m=metrics[value];
 $('#results-model').addEventListener('change',renderMetrics);renderMetrics();
 window.addEventListener('pagehide',()=>{hero.pause();player?.pause();meshes.stop();});
 
-const methodVideo=$('#method-explainer');
-const methodChapterButtons=[...document.querySelectorAll('[data-method-time]')];
-methodChapterButtons.forEach(button=>button.addEventListener('click',()=>{
- const start=Number(button.dataset.methodTime);
- methodVideo.currentTime=start===0?0:start+.5;
- methodVideo.play().catch(()=>methodVideo.focus());
-}));
-methodVideo.addEventListener('timeupdate',()=>{
- const chapter=[...methodChapterButtons].reverse().find(button=>methodVideo.currentTime>=Number(button.dataset.methodTime));
- methodChapterButtons.forEach(button=>{
-  if(button===chapter)button.setAttribute('aria-current','true');else button.removeAttribute('aria-current');
+const methodLoop=$('.method-loop');
+const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
+let methodLoopPaused=motionPreference.matches;
+function updateMethodLoop(){
+ methodLoop.querySelectorAll('[data-loop-src]').forEach(element=>{
+  const source=methodLoopPaused?element.dataset.stillSrc:element.dataset.loopSrc;
+  if(element.tagName==='SOURCE')element.srcset=source;else element.src=source;
  });
+ const button=methodLoop.querySelector('.method-loop-toggle');
+ button.textContent=methodLoopPaused?'Play animation':'Pause animation';
+ button.setAttribute('aria-pressed',String(methodLoopPaused));
+}
+methodLoop.querySelector('.method-loop-toggle').addEventListener('click',()=>{
+ methodLoopPaused=!methodLoopPaused;updateMethodLoop();
 });
-const methodVideoVisibility=new IntersectionObserver(entries=>{
- if(!entries[0].isIntersecting)methodVideo.pause();
-},{threshold:.1});
-methodVideoVisibility.observe(methodVideo);
-document.addEventListener('visibilitychange',()=>{if(document.hidden)methodVideo.pause();});
+motionPreference.addEventListener('change',()=>{
+ methodLoopPaused=motionPreference.matches;updateMethodLoop();
+});
+updateMethodLoop();

@@ -49,6 +49,6 @@ The active cases are 1, 2, 3, and 5. Case 5 replaces the former mechanical-insec
 
 All vertex positions and triangle indices are preserved. Browser-computed vertex normals are used for rendering because the input GLBs contain positions and indices without stored normals. Normal and clay shading apply the same material to all methods.
 
-## Original method animation
+## Original method loop
 
-The 48-second `assets/videos/method-explainer.mp4` is authored for this page from the method in Section 4 and Figure 5. `animation/render_method.py` is the editable source. The poster is `assets/posters/method-explainer.webp`; chapter titles are in `assets/videos/method-explainer.vtt`. It uses no external footage, music, or distributed fonts. All displayed attention scores and schedules are illustrative.
+The eight-second `assets/figures/method-loop.webp` is authored for this page from the method in Section 4 and Figure 5. `animation/render_loop.py` is the editable source. The mobile version is `method-loop-mobile.webp`, and matching static WebP images support pausing and reduced motion. `method-loop.gif` is the shareable GIF. The loop uses no external footage, music, or distributed fonts. Attention scores and token counts are illustrative.

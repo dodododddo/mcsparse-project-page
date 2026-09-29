@@ -59,9 +59,9 @@ The teaser supports a synchronized Dense / Ours divider and an Ours-only view. I
 
 The gallery displays `new_1`, `new_2`, `new_3`, and `new_4` in that order. The old `1.mp4` repeats the night-street content of `new_1.mp4`, so it is no longer displayed; `new_4.mp4` adds the distinct rain-duel scene. Each player retains the source aspect ratio and provides play/pause, restart, seeking, playback speed, and fullscreen controls. Offscreen videos pause automatically; reduced-motion preferences disable autoplay.
 
-Hunyuan and Wan video examples and model selectors have been removed from the page. The quantitative table selector now contains MiniMax-H3 and 3D generation. This repository includes only the media used by the current page. Unused source videos are kept outside this repository.
+The video gallery remains focused on MiniMax-H3. The quantitative table selector includes all four video models—MiniMax-H3, HunyuanVideo, Wan2.1 T2V, and Wan2.1 I2V—plus 3D generation. This repository includes only the media used by the current page. Unused source videos are kept outside this repository.
 
-The three method cards now explain their symbols with labels: query colors indicate similarity, highlighted KV bars indicate retained tokens, and the two residual equations show the anchor and reuse steps. These are schematic illustrations, not experimental plots.
+The Method heading emphasizes precise token-level selection at anchor steps and reuse across many subsequent denoising steps. The three method cards explain their symbols with labels: query colors indicate similarity, highlighted KV bars indicate retained tokens, and the two residual equations show the anchor and reuse steps. These are schematic illustrations, not experimental plots.
 
 ## Verification
 

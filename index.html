@@ -30,7 +30,7 @@
       <div class="hero-actions"><a class="button primary" href="assets/paper.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Paper <span>↗</span></a><a class="button secondary" href="#videos">Explore the results <span>↓</span></a></div>
       <div class="headline-metrics">
         <div><strong>1.80<span>×</span></strong><span>Video denoising speedup</span><small>MiniMax-H3-Base</small></div>
-        <div><strong>2.32<span>×</span></strong><span>3D denoising speedup</span><small>HY3D-Internal</small></div>
+        <div><strong>2.32<span>×</span></strong><span>3D denoising speedup</span><small>3D generation</small></div>
         <div><strong>15<span>%</span></strong><span>Attention density</span><small>For both results above</small></div>
         <div><strong class="metric-text">Training<span>-</span>free</strong><span>Drop-in acceleration</span><small>No model retraining</small></div>
       </div>
@@ -48,11 +48,11 @@
     <section class="geometry-section" id="geometry" aria-labelledby="geometry-heading"><div class="wrap">
       <div class="section-heading"><div><p class="section-kicker">02 / 3D ASSET GENERATION</p><h2 id="geometry-heading">Less compute.<br>All the little things.</h2></div><p>Fine structures, continuous surfaces, intricate geometry.<br>Inspect the original meshes from a shared viewpoint.</p></div>
       <div id="mesh-gallery"></div>
-      <div class="geometry-stats"><p><strong>2.32×</strong> denoising speedup</p><p><strong>15%</strong> attention density</p><p><strong>96.33</strong> F1 @ 0.001</p><span>HY3D-Internal · Table 2</span></div>
+      <div class="geometry-stats"><p><strong>2.32×</strong> denoising speedup</p><p><strong>15%</strong> attention density</p><p><strong>96.33</strong> F1 @ 0.001</p><span>3D generation · Table 2</span></div>
     </div></section>
 
     <section class="section wrap method-section" id="method" aria-labelledby="method-heading">
-      <div class="section-heading"><div><p class="section-kicker">03 / THE IDEA</p><h2 id="method-heading">Select precisely.<br>Reuse intelligently.</h2></div><p>What separates sparse attention from dense attention?<br>Three sources of error. One coordinated design.</p></div>
+      <div class="section-heading"><div><p class="section-kicker">03 / THE IDEA</p><h2 id="method-heading">Select tokens precisely.<br>Reuse across many steps.</h2></div><p>Compute exact token selections once at each anchor step.<br>Reuse them over the following denoising steps.</p></div>
       <div class="method-intro"><p>Sparse attention is fast, but discarding interactions can change what a model generates. Our controlled oracle comparisons trace this gap to <strong>structural binding</strong>, <strong>inaccurate selection</strong>, and <strong>discarded tail contributions</strong>.</p><p>MC-Sparse addresses all three: select individual KV tokens, group similar queries into GPU-aligned tiles, and reuse exact selections with a cached residual across denoising steps.</p></div>
       <div class="principles">
         <article>
@@ -113,7 +113,7 @@
     <section class="results-section section" id="results" aria-labelledby="results-heading"><div class="wrap">
       <div class="section-heading"><div><p class="section-kicker">04 / QUANTITATIVE RESULTS</p><h2 id="results-heading">The fidelity–efficiency balance.</h2></div><p>Higher fidelity to dense-attention outputs.<br>Faster denoising across video and 3D generation.</p></div>
       <div class="results-layout"><div class="speed-chart"><span class="chart-eyebrow">MINIMAX-H3-BASE · DENOISING SPEEDUP</span><h3>Same model.<br>Less waiting.</h3><div class="bar-item"><div><span>Dense attention</span><strong>1.00×</strong></div><div class="bar-track"><i style="width:55.56%"></i></div></div><div class="bar-item"><div><span>MC-Sparse · 25%</span><strong>1.61×</strong></div><div class="bar-track"><i style="width:89.44%"></i></div></div><div class="bar-item featured"><div><span>MC-Sparse · 15%</span><strong>1.80×</strong></div><div class="bar-track"><i style="width:100%"></i></div></div><p>1.80× speedup <span>Relative to dense attention (FA3)</span></p></div>
-      <div class="results-table-panel"><div class="table-heading"><h3 id="table-model-title">MiniMax-H3-Base</h3><label class="sr-only" for="results-model">Results model</label><select id="results-model"><option value="minimax">MiniMax-H3</option><option value="geometry">3D generation</option></select></div><p class="table-subtitle" id="table-setting"></p><div class="table-scroll"><table id="metrics-table"></table></div></div></div>
+      <div class="results-table-panel"><div class="table-heading"><h3 id="table-model-title">MiniMax-H3-Base</h3><label class="sr-only" for="results-model">Results model</label><select id="results-model"><option value="minimax">MiniMax-H3</option><option value="hunyuan">HunyuanVideo</option><option value="wan-t2v">Wan2.1 T2V</option><option value="wan-i2v">Wan2.1 I2V</option><option value="geometry">3D generation</option></select></div><p class="table-subtitle" id="table-setting"></p><div class="table-scroll"><table id="metrics-table"></table></div></div></div>
       <p class="results-note">Results reproduced from Tables 1–2 and Figure 1 of the paper. Speedup measures DiT denoising, including warm-up; condition encoding and VAE decoding are excluded. Video fidelity is measured against dense attention. See the paper for full settings.</p>
     </div></section>
 

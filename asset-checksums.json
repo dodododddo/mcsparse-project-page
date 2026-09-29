@@ -1,8 +1,7 @@
 {
   "assets/favicon.svg": "ead3e22058629e4767e1770629f872f2893c904f5ccb9eb9b1fd48e962a74fa4",
-  "assets/paper.pdf": "ccf4376cbf5c99889c8d904109cd02422fbd868ecc772072383e277ac81f05ee",
   "assets/figures/method.png": "8c8c4fc17c808766f6b745ad92c3fa4e8af02d83077a5dd8ae947a794f32900a",
-  "assets/figures/paper-cover.webp": "f413ce057693b40ebe800810d349d4cdc1f6578d5a606b40ad78b9b085744f2d",
+  "assets/figures/paper-cover.webp": "aab8302852cb9145aafeb7673057675032eb32219bd201ec970d5b15e9dee475",
   "vendor/LICENSE": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
   "vendor/examples/jsm/utils/BufferGeometryUtils.js": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751",
   "vendor/examples/jsm/controls/OrbitControls.js": "b97879c748170baadeb3fb84cea1ffdf4674e283dc06042f34e2acb95a76042c",
@@ -56,5 +55,6 @@
   "assets/posters/mesh-5-sol.webp": "78c902920c288881f65cfd4225b4ce416c2cfa7a043a7151e2976541216d8afb",
   "assets/posters/mesh-5-ours.webp": "943d1aa096c5ad05a5544790967d079e1af1a3b013710ffe2f75af815c9023ef",
   "assets/posters/mesh-5-pisa.webp": "b314467e17bb1162549429fc631168f21f1f8934303e7d4244751a24727a1f8e",
-  "assets/posters/mesh-5-reference.webp": "292df5589197b5bbfcfa4cc2c37f2f7424b4eff4a4d9f066aecb80ab647a88da"
+  "assets/posters/mesh-5-reference.webp": "292df5589197b5bbfcfa4cc2c37f2f7424b4eff4a4d9f066aecb80ab647a88da",
+  "assets/mcsparse_arxiv.pdf": "6cddbbff319311e47ce28fc0794fcb86b7bd66df246d74adaa49164218ad0d93"
 }

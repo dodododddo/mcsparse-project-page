@@ -37,13 +37,13 @@ The included server supports byte-range requests for video seeking and binds to 
 - `video-player.js`: single-method video playback and shared divider helpers.
 - `video-compare.js`: synchronized Dense / Ours teaser playback.
 - `mesh-viewer.js`: GLB loading, shared camera, scissor rendering, and geometry controls.
-- `assets/paper.pdf`: the supplied `mcsparse.pdf`.
+- `assets/mcsparse_arxiv.pdf`: the supplied arXiv manuscript, copied without modification (18 pages).
 - `assets/videos/`: original MP4 files, unchanged.
 - `assets/meshes/`: all 16 original GLB files, unchanged.
 - `assets/posters/`: video poster frames, geometry previews from the supplied slides, and case-5 previews rendered directly from the GLBs.
 - `ASSETS.md`: source mapping and naming notes.
 
-The paper lists anonymous authors, so the page retains **Anonymous authors · Under review**. No unprovided author names, institutions, code repositories, arXiv identifiers, or publication claims have been invented.
+All paper buttons open the supplied `mcsparse_arxiv.pdf`. The page omits the former anonymous-author and review-status labels. The cover preview comes from this manuscript; the method link opens Section 4.4 on PDF page 7.
 
 ## 3D fidelity and loading
 

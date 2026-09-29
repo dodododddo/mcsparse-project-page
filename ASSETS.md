@@ -6,14 +6,14 @@ Input folder: the supplied `mcsparse` materials folder.
 
 | Page asset | Supplied source |
 | --- | --- |
-| `assets/paper.pdf` | `mcsparse.pdf` (16 pages) |
-| `assets/figures/paper-cover.webp` | Rendered first page of `mcsparse.pdf` |
+| `assets/mcsparse_arxiv.pdf` | `mcsparse_arxiv.pdf` (18 pages), copied without modification |
+| `assets/figures/paper-cover.webp` | Rendered first page of `mcsparse_arxiv.pdf` |
 | `assets/figures/method.png` | Rendered `mcsparse_overview.pdf` |
 | Case 1–3 previews and reference images | Individual full-object images in `geo_vis_comparison.pptx`; method order verified against `geo_vis_comparison.pdf` |
 | Case 5 previews | Fresh renders of each corresponding case-5 GLB, using the same camera and normalization derived from Dense |
 | Case 5 reference | `geo_vis/微信图片_20260915152259_257_10.png`, visually matched to the case-5 warrior |
-| Headline speedups and relative-speedup chart | `mcsparse.pdf`, Figure 1 and Tables 1–2 |
-| Results selector tables | `mcsparse.pdf`, Tables 1–2 |
+| Headline speedups and relative-speedup chart | `mcsparse_arxiv.pdf`, Figure 1 and Tables 1–2 |
+| Results selector tables | `mcsparse_arxiv.pdf`, Tables 1–2 |
 
 ## Current video selection
 

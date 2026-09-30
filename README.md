@@ -26,7 +26,7 @@ The included server supports byte-range requests for video seeking and binds to 
 - Orbit, zoom, pan, reset, auto-rotation, normal colors, and clay shading.
 - Keyboard-adjustable dividers. Arrow keys orbit a focused 3D canvas; + / - zoom, and R resets it.
 - Responsive layouts, reduced-motion support, loading progress, retry controls, and geometry image previews.
-- Paper PDF, labeled method diagrams, pipeline illustration, and results from Tables 1–2 and Figure 1.
+- Paper-link placeholders, labeled method diagrams, pipeline illustration, and results from Tables 1–2 and Figure 1.
 - The performance chart reports relative denoising speedup (1.00×, 1.61×, 1.80×), with no absolute runtime values.
 
 ## Edit the content
@@ -37,13 +37,12 @@ The included server supports byte-range requests for video seeking and binds to 
 - `video-player.js`: single-method video playback and shared divider helpers.
 - `video-compare.js`: synchronized Dense / Ours teaser playback.
 - `mesh-viewer.js`: GLB loading, shared camera, scissor rendering, and geometry controls.
-- `assets/mcsparse_arxiv.pdf`: the supplied arXiv manuscript, copied without modification (18 pages).
 - `assets/videos/`: original MP4 files, unchanged.
 - `assets/meshes/`: all 16 original GLB files, unchanged.
 - `assets/posters/`: video poster frames, geometry previews from the supplied slides, and case-5 previews rendered directly from the GLBs.
 - `ASSETS.md`: source mapping and naming notes.
 
-All paper buttons open the supplied `mcsparse_arxiv.pdf`. The page omits the former anonymous-author and review-status labels. The cover preview comes from this manuscript; the method link opens Section 4.4 on PDF page 7.
+Paper URLs are intentionally empty. Fill the `href` values on the five links marked `data-paper-link` in `index.html` when the publication URL is ready. Empty links do not navigate or trigger a download. No paper PDF is bundled with the site.
 
 ## 3D fidelity and loading
 
@@ -89,4 +88,4 @@ Three.js 0.180.0 is included locally under its MIT license in `vendor/LICENSE`. 
 
 This repository is private. GitHub Pages is not enabled. Run `npm start` to preview it locally.
 
-The repository includes the six active example videos, all sixteen full-resolution GLB meshes, the paper PDF, preview images, and the local Three.js runtime. Media files use ordinary Git storage; no Git LFS download step is required.
+The repository includes the six active example videos, all sixteen full-resolution GLB meshes, preview images, and the local Three.js runtime. Media files use ordinary Git storage; no Git LFS download step is required.

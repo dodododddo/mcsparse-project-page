@@ -27,3 +27,12 @@ const meshes=new MeshGallery($('#mesh-gallery'));
 function renderMetrics(){const value=$('#results-model').value,m=metrics[value];$('#table-model-title').textContent=m.name;$('#table-setting').textContent=m.setting;$('#metrics-table').innerHTML=`<caption class="sr-only">${m.name} quantitative results from the paper</caption><thead><tr>${(m.headers||['Method','PSNR ↑','SSIM ↑','LPIPS ↓','Density ↓','Speedup ↑']).map(h=>`<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${m.rows.map(r=>`<tr class="${r[0].startsWith('MC-Sparse')?'ours-row':''}">${r.map((v,i)=>i===0?`<th scope="row">${v}</th>`:`<td>${v}</td>`).join('')}</tr>`).join('')}</tbody>`;}
 $('#results-model').addEventListener('change',renderMetrics);renderMetrics();
 window.addEventListener('pagehide',()=>{hero.pause();player?.pause();meshes.stop();});
+
+// Leave paper URLs empty until the publication link is supplied.
+// Prevent empty links from reopening or downloading this page.
+document.querySelectorAll('[data-paper-link]').forEach(link=>{
+ if(!link.getAttribute('href'))link.setAttribute('aria-disabled','true');
+ link.addEventListener('click',event=>{
+  if(!link.getAttribute('href'))event.preventDefault();
+ });
+});

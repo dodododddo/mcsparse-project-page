@@ -17,7 +17,7 @@
     <nav class="nav wrap" aria-label="Main navigation">
       <a class="brand" href="#" aria-label="MC-Sparse home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>MC-Sparse</a>
       <div class="nav-links"><a href="#videos">Videos</a><a href="#geometry">3D assets</a><a href="#method">Method</a><a href="#results">Results</a></div>
-      <a class="nav-paper" href="assets/mcsparse_arxiv.pdf" target="_blank" rel="noopener">View paper <span aria-hidden="true">↗</span></a>
+      <a class="nav-paper" href="" data-paper-link target="_blank" rel="noopener">View paper <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
   <main>
@@ -26,7 +26,7 @@
       <h1 id="page-title">MC-Sparse<span class="title-dot">.</span></h1>
       <h2>Deconstructing and Closing the Dense–Sparse<br class="desktop-break"> Attention Gap in Diffusion Transformers</h2>
       <p class="hero-summary">Dense-level fidelity. A fraction of the attention.<br>A training-free framework for faster video and 3D generation.</p>
-      <div class="hero-actions"><a class="button primary" href="assets/mcsparse_arxiv.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Paper <span>↗</span></a><a class="button secondary" href="#videos">Explore the results <span>↓</span></a></div>
+      <div class="hero-actions"><a class="button primary" href="" data-paper-link target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg>Paper <span>↗</span></a><a class="button secondary" href="#videos">Explore the results <span>↓</span></a></div>
       <div class="headline-metrics">
         <div><strong>1.80<span>×</span></strong><span>Video denoising speedup</span><small>MiniMax-H3-Base</small></div>
         <div><strong>2.32<span>×</span></strong><span>3D denoising speedup</span><small>3D generation</small></div>
@@ -106,7 +106,7 @@
         </article>
       </div>
       <p class="method-diagram-note">Schematic illustrations. O denotes an attention output; R is the cached dense–sparse residual.</p>
-      <figure class="method-figure"><div class="figure-topline"><span>THE MC-SPARSE PIPELINE</span><a href="assets/mcsparse_arxiv.pdf#page=7" target="_blank" rel="noopener">Section 4.4 <span>↗</span></a></div><img src="assets/figures/method.png" alt="At an anchor step, MC-Sparse computes query groups, exact KV indices, and a dense-minus-sparse residual. Reuse steps use this metadata with fresh Q, K, and V, then add the residual." loading="lazy"><figcaption>Cache the metadata. Recompute the attention with current Q, K, and V.</figcaption></figure>
+      <figure class="method-figure"><div class="figure-topline"><span>THE MC-SPARSE PIPELINE</span><a href="" data-paper-link target="_blank" rel="noopener">Section 4.4 <span>↗</span></a></div><img src="assets/figures/method.png" alt="At an anchor step, MC-Sparse computes query groups, exact KV indices, and a dense-minus-sparse residual. Reuse steps use this metadata with fresh Q, K, and V, then add the residual." loading="lazy"><figcaption>Cache the metadata. Recompute the attention with current Q, K, and V.</figcaption></figure>
     </section>
 
     <section class="results-section section" id="results" aria-labelledby="results-heading"><div class="wrap">
@@ -116,9 +116,9 @@
       <p class="results-note">Results reproduced from Tables 1–2 and Figure 1 of the paper. Speedup measures DiT denoising, including warm-up; condition encoding and VAE decoding are excluded. Video fidelity is measured against dense attention. See the paper for full settings.</p>
     </div></section>
 
-    <section class="paper-section wrap" id="paper"><div class="paper-cover"><img src="assets/figures/paper-cover.webp" alt="First page of the MC-Sparse arXiv manuscript" loading="lazy"></div><div><p class="section-kicker">READ THE FULL STORY</p><h2>MC-Sparse</h2><p>Deconstructing and Closing the Dense–Sparse<br>Attention Gap in Diffusion Transformers</p><a class="button primary" href="assets/mcsparse_arxiv.pdf" target="_blank" rel="noopener">View paper <span>↗</span></a><a class="text-link" href="assets/mcsparse_arxiv.pdf" download="mcsparse_arxiv.pdf">Download PDF <span>↓</span></a></div></section>
+    <section class="paper-section wrap" id="paper"><div class="paper-cover"><img src="assets/figures/paper-cover.webp" alt="First page of the MC-Sparse arXiv manuscript" loading="lazy"></div><div><p class="section-kicker">READ THE FULL STORY</p><h2>MC-Sparse</h2><p>Deconstructing and Closing the Dense–Sparse<br>Attention Gap in Diffusion Transformers</p><a class="button primary" href="" data-paper-link target="_blank" rel="noopener">View paper <span>↗</span></a><a class="text-link" href="" data-paper-link>Download PDF <span>↓</span></a></div></section>
   </main>
   <footer class="wrap"><a class="brand" href="#">MC-Sparse<span class="title-dot">.</span></a><p>Meta-Cached Sparse Attention</p><a href="#">Back to top ↑</a></footer>
-  <noscript><p class="noscript">Enable JavaScript for the video gallery and interactive 3D meshes. The paper is available as a PDF above.</p></noscript>
+  <noscript><p class="noscript">Enable JavaScript for the video gallery and interactive 3D meshes.</p></noscript>
 </body>
 </html>

@@ -4,9 +4,10 @@ Input folder: the supplied `mcsparse` materials folder.
 
 ## Paper and figures
 
+Paper links are empty placeholders; no paper PDF is included in the site assets. The existing figure and cover provenance is listed below.
+
 | Page asset | Supplied source |
 | --- | --- |
-| `assets/mcsparse_arxiv.pdf` | `mcsparse_arxiv.pdf` (18 pages), copied without modification |
 | `assets/figures/paper-cover.webp` | Rendered first page of `mcsparse_arxiv.pdf` |
 | `assets/figures/method.png` | Rendered `mcsparse_overview.pdf` |
 | Case 1–3 previews and reference images | Individual full-object images in `geo_vis_comparison.pptx`; method order verified against `geo_vis_comparison.pdf` |

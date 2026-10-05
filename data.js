@@ -1,4 +1,4 @@
-export const teaser = {name: 'A day at the beach', files: {dense: 'new_dense', ours: 'new_ours'}};
+export const teaser = {name: 'A day at the beach', files: {dense: 'new_dense', ours: 'new_ours', comparison: 'new_comparison'}};
 export const videoGroups = [
   {id: 'minimax', label: 'MiniMax-H3', detail: 'MiniMax-H3-Base · 768p · Text-to-video', scenes: [
     {name: 'City lights', files: {ours: 'new_1'}},

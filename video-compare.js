@@ -1,35 +1,85 @@
-import {icons,dividerMarkup,setupDivider} from './video-player.js';
-const methods={dense:'Dense',ours:'MC-Sparse (Ours)'};
-const formatTime=s=>`${String(Math.floor(s/60)).padStart(2,'0')}:${String(Math.floor(s%60)).padStart(2,'0')}`;
-export class VideoComparison {
- constructor(container,files,{title='Video comparison',autoplay=true}={}){
-  this.container=container;this.alive=true;this.desired=autoplay&&!matchMedia('(prefers-reduced-motion: reduce)').matches;this.visible=false;this.seeking=false;this.ready=false;this.speed=1;this.error=false;
-  const video=k=>`<video class="${k==='dense'?'dense-layer':''}" data-method="${k}" muted playsinline preload="metadata" poster="assets/posters/${files[k]}.webp" aria-label="${methods[k]} generated video"><source src="assets/videos/${files[k]}.mp4" type="video/mp4"></video>`;
-  container.innerHTML=`<div class="video-shell teaser-compare"><div class="compare-stage">${video('ours')}${video('dense')}<span class="method-label">Dense</span><span class="method-label ours"><i class="label-dot"></i>MC-Sparse (Ours)</span>${dividerMarkup('Dense and Ours video comparison','Drag to compare')}</div><div class="controls"><button class="icon-button play-toggle" aria-label="Play comparison">${icons.play}</button><button class="icon-button restart" aria-label="Restart comparison">${icons.restart}</button><span class="time-display">00:00 / 00:00</span><input class="seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek comparison"><span class="sync-status">IN SYNC</span><select class="speed-select" aria-label="Playback speed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option><option value="2">2×</option></select><button class="icon-button fullscreen" aria-label="Fullscreen video comparison">${icons.fullscreen}</button></div></div>`;
-  this.shell=container.querySelector('.video-shell');this.videos=[...container.querySelectorAll('video')];this.master=this.videos.find(v=>v.dataset.method==='dense');this.followers=this.videos.filter(v=>v!==this.master);this.range=container.querySelector('.seek');this.playButton=container.querySelector('.play-toggle');this.time=container.querySelector('.time-display');this.status=container.querySelector('.sync-status');
-  this.divider=setupDivider(container.querySelector('.compare-stage'));
-  this.shell.setAttribute('aria-label',title);
-  this.master.addEventListener('loadedmetadata',()=>this.shell.style.setProperty('--video-ratio',`${this.master.videoWidth} / ${this.master.videoHeight}`));
-  this.videos.forEach(v=>{v.muted=true;v.addEventListener('loadedmetadata',()=>this.updateDuration());v.addEventListener('canplay',()=>this.checkReady());v.addEventListener('error',()=>this.showError());v.querySelector('source')?.addEventListener('error',()=>this.showError());v.addEventListener('waiting',()=>{if(!this.seeking&&this.desired){this.buffering=true;this.videos.forEach(x=>x.pause());this.updateButton();this.status.textContent='BUFFERING';}});v.addEventListener('canplaythrough',()=>this.checkReady());v.load();});
-  this.master.addEventListener('ended',()=>{if(this.desired){this.seek(0);this.resume();}});
-  this.playButton.addEventListener('click',()=>{if(this.error){this.error=false;this.shell.querySelector('.video-error')?.remove();this.videos.forEach(v=>v.load());}this.desired=!this.desired;if(this.desired)this.resume();else this.pause();});
-  container.querySelector('.restart').addEventListener('click',()=>{this.seek(0);if(this.desired)this.resume();});
-  this.range.addEventListener('input',()=>{this.seeking=true;this.pause();this.seek(Number(this.range.value)/1000*this.duration);});
-  this.range.addEventListener('change',()=>{this.seeking=false;if(this.desired)this.resume();});
-  container.querySelector('.speed-select').addEventListener('change',e=>{this.speed=Number(e.target.value);this.videos.forEach(v=>v.playbackRate=this.speed);});
-  container.querySelector('.fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await this.shell.requestFullscreen();}catch{this.status.textContent='UNAVAILABLE';}});
-  this.observer=new IntersectionObserver(entries=>{this.visible=entries[0].isIntersecting;if(this.visible){this.videos.forEach(v=>v.preload='auto');if(this.desired)this.resume();}else this.pause();},{threshold:.15});this.observer.observe(this.shell);
-  this.visibility=()=>{if(document.hidden)this.pause();else if(this.visible&&this.desired)this.resume();};document.addEventListener('visibilitychange',this.visibility);
-  this.tick=this.tick.bind(this);this.frame=requestAnimationFrame(this.tick);
+import {VideoPlayer, dividerMarkup, setupDivider} from './video-player.js';
+
+// Dense and Ours are packed into ONE frame: both sides share one decoder,
+// playback clock and buffering state, including during seeking and looping.
+export class VideoComparison extends VideoPlayer {
+ constructor(container, files, options = {}) {
+  if (!files.comparison) throw new Error('A paired comparison video is required.');
+  super(container, files.comparison, options);
+  this.shell.classList.add('teaser-compare', 'paired-comparison');
+  this.shell.setAttribute('aria-label', options.title || 'Video comparison');
+  this.video.setAttribute('aria-hidden', 'true');
+  this.video.removeAttribute('poster');
+  this.video.tabIndex = -1;
+  const stage = container.querySelector('.video-stage');
+  stage.classList.replace('video-stage', 'compare-stage');
+  this.canvas = document.createElement('canvas');
+  this.canvas.setAttribute('role', 'img');
+  this.canvas.setAttribute('aria-label', 'Dense and MC-Sparse, synchronized frame comparison');
+  stage.prepend(this.canvas);
+  this.context = this.canvas.getContext('2d', {alpha: false});
+  this.snapshot = document.createElement('canvas');
+  this.snapshotContext = this.snapshot.getContext('2d', {alpha: false});
+  this.split = .5;
+  stage.insertAdjacentHTML('beforeend', '<span class="method-label">Dense</span>' + dividerMarkup('Dense and Ours video comparison', 'Drag to compare'));
+  this.divider = setupDivider(stage, split => { this.split = split; this.draw(); });
+  this.range.setAttribute('aria-label', 'Seek comparison');
+  container.querySelector('.restart').setAttribute('aria-label', 'Restart comparison');
+  container.querySelector('.fullscreen').setAttribute('aria-label', 'Fullscreen video comparison');
+  const on = (target, event, callback) => target.addEventListener(event, callback, {signal: this.events.signal});
+  on(this.video, 'loadedmetadata', () => {
+   this.canvas.width = this.video.videoWidth / 2;
+   this.canvas.height = this.video.videoHeight;
+   this.snapshot.width = this.video.videoWidth;
+   this.snapshot.height = this.video.videoHeight;
+   this.shell.style.setProperty('--video-ratio', `${this.canvas.width} / ${this.canvas.height}`);
+  });
+  for (const event of ['loadeddata', 'seeked', 'pause', 'ended']) on(this.video, event, () => this.draw());
+  this.poster = new Image();
+  on(this.poster, 'load', () => { if (this.video.readyState < 2) this.drawPoster(); });
+  this.poster.src = `assets/posters/${files.comparison}.webp`;
+  this.renderFrame = () => {
+   if (!this.alive) return;
+   if (this.visible && !document.hidden) this.draw();
+   this.scheduleFrame();
+  };
+  this.scheduleFrame();
+  this.updateButton();
  }
- updateDuration(){const ds=this.videos.map(v=>v.duration).filter(Number.isFinite);this.duration=ds.length?Math.min(...ds):0;this.updateTime();}
- checkReady(){if(!this.alive)return;this.ready=this.videos.every(v=>v.readyState>=3);if(this.ready){this.buffering=false;this.status.textContent='IN SYNC';if(this.desired&&!this.seeking&&this.visible&&!document.hidden)this.resume();}}
- async resume(){if(!this.alive||!this.desired||this.seeking||!this.visible||document.hidden||this.error)return;if(!this.videos.every(v=>v.readyState>=3)){this.buffering=true;this.status.textContent='LOADING';return;}this.buffering=false;if(this.starting)return;this.starting=true;this.followers.forEach(v=>{if(Math.abs(v.currentTime-this.master.currentTime)>.06)v.currentTime=this.master.currentTime;});const results=await Promise.allSettled(this.videos.map(v=>v.play()));this.starting=false;if(!this.alive)return;if(!this.desired||!this.visible||document.hidden||this.seeking){this.pause();return;}if(results.some(r=>r.status==='rejected')){this.videos.forEach(v=>v.pause());this.desired=false;this.status.textContent='PRESS PLAY';}else this.status.textContent='IN SYNC';this.updateButton();}
- pause(){this.videos.forEach(v=>v.pause());if(!this.seeking&&this.master.readyState>=2)this.followers.forEach(v=>{if(v.readyState>=2&&Math.abs(v.currentTime-this.master.currentTime)>.005)v.currentTime=this.master.currentTime;});this.updateButton();}
- updateButton(){const playing=this.desired&&this.visible&&!this.seeking&&!document.hidden&&!this.error;this.playButton.innerHTML=playing?icons.pause:icons.play;this.playButton.setAttribute('aria-label',playing?'Pause comparison':'Play comparison');}
- seek(time){if(!Number.isFinite(time))return;this.videos.forEach(v=>{if(v.readyState>=1)v.currentTime=Math.min(time,Math.max(0,v.duration-.001));});this.updateTime();}
- updateTime(){const t=this.master.currentTime||0;this.time.textContent=`${formatTime(t)} / ${formatTime(this.duration||0)}`;if(!this.seeking)this.range.value=this.duration?t/this.duration*1000:0;this.range.setAttribute('aria-valuetext',`${t.toFixed(1)} of ${(this.duration||0).toFixed(1)} seconds`);}
- tick(){if(!this.alive)return;if(this.visible){this.updateTime();if(!this.master.paused&&!this.seeking){for(const v of this.followers){const diff=v.currentTime-this.master.currentTime;if(Math.abs(diff)>.08&&v.readyState>=3&&!v.seeking)v.currentTime=this.master.currentTime;}}if(this.buffering)this.checkReady();}this.frame=requestAnimationFrame(this.tick);}
- showError(){if(!this.alive||this.error)return;this.error=true;this.desired=false;this.pause();this.status.textContent='LOAD FAILED';const e=document.createElement('div');e.className='video-error';e.setAttribute('role','status');e.textContent='A video could not load. Press play to retry.';this.shell.style.position='relative';this.shell.append(e);}
- destroy(){this.alive=false;this.observer.disconnect();cancelAnimationFrame(this.frame);document.removeEventListener('visibilitychange',this.visibility);this.videos.forEach(v=>{v.pause();v.removeAttribute('src');v.querySelectorAll('source').forEach(s=>s.remove());v.load();});this.container.innerHTML='';}
+ scheduleFrame() {
+  if (this.video.requestVideoFrameCallback) this.frame = this.video.requestVideoFrameCallback(this.renderFrame);
+  else this.frame = requestAnimationFrame(this.renderFrame);
+ }
+ drawPoster() {
+  if (!this.poster?.naturalWidth) return;
+  this.canvas.width = this.poster.naturalWidth / 2;
+  this.canvas.height = this.poster.naturalHeight;
+  this.snapshot.width = this.poster.naturalWidth;
+  this.snapshot.height = this.poster.naturalHeight;
+  this.snapshotContext.drawImage(this.poster, 0, 0);
+  this.paintSnapshot();
+ }
+ draw() {
+  if (!this.canvas || !this.alive) return;
+  if (this.video.readyState < 2 || !this.video.videoWidth) { this.drawPoster(); return; }
+  // Capture once before painting either side of the draggable divider.
+  this.snapshotContext.drawImage(this.video, 0, 0, this.snapshot.width, this.snapshot.height);
+  this.paintSnapshot();
+ }
+ paintSnapshot() {
+  const width = this.canvas.width, height = this.canvas.height;
+  if (!width || !height) return;
+  this.context.drawImage(this.snapshot, width, 0, width, height, 0, 0, width, height);
+  const left = Math.round(width * this.split);
+  if (left) this.context.drawImage(this.snapshot, 0, 0, left, height, 0, 0, left, height);
+ }
+ updateButton() {
+  super.updateButton();
+  this.playButton.setAttribute('aria-label', this.playButton.getAttribute('aria-label').replace('video', 'comparison'));
+ }
+ destroy() {
+  if (this.video.cancelVideoFrameCallback) this.video.cancelVideoFrameCallback(this.frame);
+  else cancelAnimationFrame(this.frame);
+  super.destroy();
+ }
 }

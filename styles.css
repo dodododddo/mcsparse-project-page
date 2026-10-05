@@ -20,3 +20,7 @@
 .teaser-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:13px;gap:15px;text-align:left}.teaser-toolbar>span{font-size:11px;color:#9c89ac}.hero-demo .compare-stage{aspect-ratio:var(--video-ratio,1344 / 768)}.hero-demo .compare-stage video{object-fit:contain}.teaser-compare{position:relative;--video-ratio:1344 / 768}.teaser-compare .compare-stage{aspect-ratio:var(--video-ratio)}.teaser-compare .video-error{bottom:60px}.prompt-credit{margin-top:18px;color:#9b8ba6;font-size:11px}.prompt-credit strong{font-weight:550;color:#80678f}#video-gallery .scene-card{max-width:none}#video-gallery .gallery-toolbar{margin-top:3px}
 @media(max-width:680px){.teaser-toolbar>span{font-size:9px}.teaser-toolbar .segmented button{font-size:9px}.prompt-credit{font-size:10px}.hero-demo .compare-stage{aspect-ratio:var(--video-ratio,1344 / 768)}}
 .prompt-credit a{font-weight:550;color:#80678f;text-decoration:underline;text-decoration-color:#cfc0dc;text-underline-offset:3px}.prompt-credit a:hover{color:var(--purple)}
+
+/* Both comparison views are painted from one decoded, side-by-side frame. */
+.paired-comparison .compare-stage video{visibility:hidden;pointer-events:none}
+.paired-comparison .compare-stage canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}

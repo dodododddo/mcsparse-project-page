@@ -1,6 +1,6 @@
-import {teaser,videoGroups,metrics} from './data.js';
+import {teaser,videoGroups,metrics} from './data.js?v=paired-1';
 import {VideoPlayer} from './video-player.js';
-import {VideoComparison} from './video-compare.js';
+import {VideoComparison} from './video-compare.js?v=paired-1';
 import {MeshGallery} from './mesh-viewer.js';
 const $=s=>document.querySelector(s);
 let hero,heroMode='split',sceneIndex=0,player;

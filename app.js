@@ -28,8 +28,7 @@ function renderMetrics(){const value=$('#results-model').value,m=metrics[value];
 $('#results-model').addEventListener('change',renderMetrics);renderMetrics();
 window.addEventListener('pagehide',()=>{hero.pause();player?.pause();meshes.stop();});
 
-// Leave paper URLs empty until the publication link is supplied.
-// Prevent empty links from reopening or downloading this page.
+// Guard any future missing paper URLs against downloading the page itself.
 document.querySelectorAll('[data-paper-link]').forEach(link=>{
  if(!link.getAttribute('href'))link.setAttribute('aria-disabled','true');
  link.addEventListener('click',event=>{

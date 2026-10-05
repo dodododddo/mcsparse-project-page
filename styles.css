@@ -24,3 +24,14 @@
 /* Both comparison views are painted from one decoded, side-by-side frame. */
 .paired-comparison .compare-stage video{visibility:hidden;pointer-events:none}
 .paired-comparison .compare-stage canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+
+.paper-credits{margin:25px auto 0;max-width:850px}
+.author-list{display:grid;grid-template-columns:repeat(4,max-content);justify-content:center;gap:9px 24px;font-size:14px;line-height:1.55;color:#514956}
+.paper-credits sup{font-size:.68em;margin-left:2px;color:var(--purple);line-height:0}
+.affiliation-list{display:grid;gap:5px;margin-top:17px;font-size:11px;color:#827589;line-height:1.6}
+.affiliation-list>div{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 19px}
+.affiliation-list span{white-space:nowrap}
+.affiliation-list sup{margin-left:0;margin-right:3px}
+.author-notes{font-size:10px;color:#93869b;margin-top:9px}
+.author-notes>span{margin-inline:8px}
+@media(max-width:680px){.paper-credits{margin-top:21px}.author-list{grid-template-columns:repeat(2,max-content);gap:8px 18px;font-size:12px}.affiliation-list{font-size:10px;gap:5px;margin-top:14px}.affiliation-list>div{gap:4px 12px}.author-notes{font-size:9px}}

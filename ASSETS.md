@@ -4,11 +4,12 @@ Input folder: the supplied `mcsparse` materials folder.
 
 ## Paper and figures
 
-Paper links are empty placeholders; no paper PDF is included in the site assets. The existing figure and cover provenance is listed below.
+Paper links point to `assets/papers/MC-Sparse.pdf`, copied unchanged from the user-supplied Downloads/Flash_MCSA__arXiv_.pdf (17 pages). Author order, affiliations and role symbols are transcribed from its first page.
 
 | Page asset | Supplied source |
 | --- | --- |
-| `assets/figures/paper-cover.webp` | Rendered first page of `mcsparse_arxiv.pdf` |
+| `assets/papers/MC-Sparse.pdf` | Unmodified `Downloads/Flash_MCSA__arXiv_.pdf` |
+| `assets/figures/paper-cover.webp` | First page rendered from the same downloadable PDF at 2× resolution |
 | `assets/figures/method.png` | Rendered `mcsparse_overview.pdf` |
 | Case 1–3 previews and reference images | Individual full-object images in `geo_vis_comparison.pptx`; method order verified against `geo_vis_comparison.pdf` |
 | Case 5 previews | Fresh renders of each corresponding case-5 GLB, using the same camera and normalization derived from Dense |

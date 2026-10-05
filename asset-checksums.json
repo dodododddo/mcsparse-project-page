@@ -1,7 +1,7 @@
 {
   "assets/favicon.svg": "ead3e22058629e4767e1770629f872f2893c904f5ccb9eb9b1fd48e962a74fa4",
   "assets/figures/method.png": "8c8c4fc17c808766f6b745ad92c3fa4e8af02d83077a5dd8ae947a794f32900a",
-  "assets/figures/paper-cover.webp": "aab8302852cb9145aafeb7673057675032eb32219bd201ec970d5b15e9dee475",
+  "assets/figures/paper-cover.webp": "7902352d0abf85fc1015fbf4ea9b824b540b81b6825814beb5ac364e79a5d5a7",
   "vendor/LICENSE": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
   "vendor/examples/jsm/utils/BufferGeometryUtils.js": "fda7e946b8e0b5ab39b779206589e7a1079a22eb24efb89d7223e03fdfb1f751",
   "vendor/examples/jsm/controls/OrbitControls.js": "b97879c748170baadeb3fb84cea1ffdf4674e283dc06042f34e2acb95a76042c",
@@ -57,5 +57,6 @@
   "assets/posters/mesh-5-pisa.webp": "b314467e17bb1162549429fc631168f21f1f8934303e7d4244751a24727a1f8e",
   "assets/posters/mesh-5-reference.webp": "292df5589197b5bbfcfa4cc2c37f2f7424b4eff4a4d9f066aecb80ab647a88da",
   "assets/videos/new_comparison.mp4": "5ce957e715ed52fd80f88155e89642a187a278d6ad1fdda91e29ccba88b1ffab",
-  "assets/posters/new_comparison.webp": "eaa6adae7161b368fd89e2b5b3b69cd33a68d224f2c66cce61c0b61d24e7a0dd"
+  "assets/posters/new_comparison.webp": "eaa6adae7161b368fd89e2b5b3b69cd33a68d224f2c66cce61c0b61d24e7a0dd",
+  "assets/papers/MC-Sparse.pdf": "353088ba21a27abbc10fc4a455ba006a717bfec427d88a7c05aeb6a77273ac8b"
 }

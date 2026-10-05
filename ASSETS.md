@@ -10,7 +10,7 @@ Paper links point to `assets/papers/MC-Sparse.pdf`, copied unchanged from the us
 | --- | --- |
 | `assets/papers/MC-Sparse.pdf` | Unmodified `Downloads/Flash_MCSA__arXiv_.pdf` |
 | `assets/figures/paper-cover.webp` | First page rendered from the same downloadable PDF at 2× resolution |
-| `assets/figures/method.png` | Rendered `mcsparse_overview.pdf` |
+| `assets/figures/method-overview.svg` and `.pdf` | Original `mcsparse_overview_revised_v2.pdf`, the version referenced by the current manuscript |
 | Case 1–3 previews and reference images | Individual full-object images in `geo_vis_comparison.pptx`; method order verified against `geo_vis_comparison.pdf` |
 | Case 5 previews | Fresh renders of each corresponding case-5 GLB, using the same camera and normalization derived from Dense |
 | Case 5 reference | `geo_vis/微信图片_20260915152259_257_10.png`, visually matched to the case-5 warrior |
@@ -56,3 +56,13 @@ All vertex positions and triangle indices are preserved. Browser-computed vertex
 The comparison view uses `assets/videos/new_comparison.mp4`: each frame packs Dense on the left and Ours on the right, with no spatial resizing or temporal offset. The 2688 × 768, 24 fps stream contains 345 paired frames (14.375 seconds). One HTML video decoder supplies a snapshot that is cropped into both sides of the draggable canvas. Seeking, buffering and looping therefore share one clock.
 
 This derived preview is re-encoded with H.264 High, YUV420p, CRF 12 for browser compatibility. It is not a lossless copy. Original `new_dense.mp4` and `new_ours.mp4` are unchanged; the Ours-only mode still plays the original. Rebuild the preview and its first-frame poster with `sh scripts/build-comparison.sh`, then update their SHA-256 entries.
+
+## Original vector figures for the analysis section
+
+The original PDFs from Downloads/Flash_MCSA__arXiv_/figures are copied byte-for-byte. SVGs are exported directly with PyMuPDF `page.get_svg_image(text_as_path=True)`, retaining vector geometry and converting embedded font glyphs to paths. No screenshots or rasterized plots are used on the website.
+
+- `sources-of-gap.pdf` / `.svg`: `sources_of_gap_visual.pdf` (paper Figure 3).
+- `oracle-comparisons.pdf` / `.svg`: `oracle_combined.pdf` (paper Figure 2).
+- `method-overview.pdf` / `.svg`: `mcsparse_overview_revised_v2.pdf` (paper pipeline figure).
+
+The previous `method.png` asset remains in the repository for provenance but is no longer displayed.

@@ -7,7 +7,7 @@
   <meta name="description" content="MC-Sparse: A training-free, token-level sparse attention framework for faster video and 3D generation.">
   <title>MC-Sparse — Meta-Cached Sparse Attention</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="stylesheet" href="styles.css?v=paper-2">
+  <link rel="stylesheet" href="styles.css?v=analysis-1">
   <script type="importmap">{"imports":{"three":"./vendor/build/three.module.js","three/addons/":"./vendor/examples/jsm/"}}</script>
   <script type="module" src="app.js?v=paper-2"></script>
 </head>
@@ -16,7 +16,7 @@
   <header class="site-header">
     <nav class="nav wrap" aria-label="Main navigation">
       <a class="brand" href="#" aria-label="MC-Sparse home"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>MC-Sparse</a>
-      <div class="nav-links"><a href="#videos">Videos</a><a href="#geometry">3D assets</a><a href="#method">Method</a><a href="#results">Results</a></div>
+      <div class="nav-links"><a href="#videos">Videos</a><a href="#geometry">3D assets</a><a href="#analysis">Analysis</a><a href="#method">Method</a><a href="#results">Results</a></div>
       <a class="nav-paper" href="assets/papers/MC-Sparse.pdf?v=20261006" data-paper-link target="_blank" rel="noopener">View paper <span aria-hidden="true">↗</span></a>
     </nav>
   </header>
@@ -68,9 +68,37 @@
       <div class="geometry-stats"><p><strong>2.32×</strong> denoising speedup</p><p><strong>15%</strong> attention density</p><p><strong>96.33</strong> F1 @ 0.001</p><span>3D generation · Table 2</span></div>
     </div></section>
 
+    <section class="analysis-section section" id="analysis" aria-labelledby="analysis-heading"><div class="wrap">
+      <div class="section-heading"><div><p class="section-kicker">03 / UNDERSTANDING THE GAP</p><h2 id="analysis-heading">Where does sparse<br>attention lose fidelity?</h2></div><p>Three sources of error.<br>Controlled oracle comparisons reveal their effects.</p></div>
+      <figure class="analysis-figure">
+        <div class="figure-topline"><span>THREE SOURCES OF ERROR</span><a href="assets/figures/sources-of-gap.pdf" target="_blank" rel="noopener">Original figure PDF <span aria-hidden="true">↗</span></a></div>
+        <div class="analysis-figure-scroll" role="region" aria-label="Three sources of error diagram; scroll horizontally on small screens" tabindex="0"><img class="gap-figure" src="assets/figures/sources-of-gap.svg" width="1392" height="444" alt="Three error sources: block constraints miss important individual tokens; approximate selection chooses the wrong blocks; sparse attention discards the nonzero contributions of unselected tokens." loading="lazy"></div>
+        <figcaption>Three sources of the dense–sparse attention gap. Figure 3 from the paper.</figcaption>
+      </figure>
+      <div class="error-explanations">
+        <article><span class="analysis-index">01 / STRUCTURE</span><h3>Structural binding error</h3><p>KV blocks tie important tokens to irrelevant neighbors. Shared query groups force queries with different attention patterns to use the same selection.</p></article>
+        <article><span class="analysis-index">02 / SELECTION</span><h3>Selection error</h3><p>Approximate scores, such as mean-pooled query and key scores, can rank the wrong blocks above the interactions that matter.</p></article>
+        <article><span class="analysis-index">03 / DISCARDED TAIL</span><h3>Discarded tail error</h3><p>Even an exact per-query selector omits tokens with nonzero contributions. Selecting the best tokens still leaves a gap to dense attention.</p></article>
+      </div>
+      <div class="oracle-heading"><h3>What the oracle comparisons reveal</h3><p>At the same attention density, improve the selector and then relax the grouping constraints.</p></div>
+      <figure class="analysis-figure">
+        <div class="figure-topline"><span>WAN2.1-1.3B-T2V · 480P</span><a href="assets/figures/oracle-comparisons.pdf" target="_blank" rel="noopener">Original figure PDF <span aria-hidden="true">↗</span></a></div>
+        <div class="analysis-figure-scroll" role="region" aria-label="Oracle comparison curves; scroll horizontally on small screens" tabindex="0"><img class="oracle-figure" src="assets/figures/oracle-comparisons.svg" width="1949" height="629" alt="Oracle curves across attention densities 0.15 to 0.30: per-query oracle captures the most attention mass, gives the highest output cosine similarity, and has the lowest relative L1 error. Shared-query token oracle follows, then block oracle, then mean-pooled BSA. A gap to dense attention remains even for per-query oracle." loading="lazy"></div>
+        <figcaption>Attention mass captured ↑ · Output cosine similarity ↑ · Output relative L₁ error ↓. Figure 2 from the paper.</figcaption>
+      </figure>
+      <ol class="oracle-reading" aria-label="How to read the oracle comparisons">
+        <li><strong>Mean-pooled BSA → Block oracle</strong><span>Exact scoring isolates selection error.</span></li>
+        <li><strong>Block oracle → Token oracle</strong><span>Individual KV tokens remove KV-block binding.</span></li>
+        <li><strong>Token oracle → Per-query oracle</strong><span>Independent selections remove shared-query binding.</span></li>
+        <li><strong>Per-query oracle → Dense</strong><span>The remaining gap reflects discarded contributions.</span></li>
+      </ol>
+      <p class="oracle-context">Oracle selectors use exact dense-attention probabilities. These are diagnostic fidelity comparisons at matched densities, not runtime speedup measurements.</p>
+      <a class="analysis-next" href="#method">From these findings to MC-Sparse <span aria-hidden="true">↓</span></a>
+    </div></section>
+
     <section class="section wrap method-section" id="method" aria-labelledby="method-heading">
-      <div class="section-heading"><div><p class="section-kicker">03 / THE IDEA</p><h2 id="method-heading">Select tokens precisely.<br>Reuse across many steps.</h2></div><p>Compute exact token selections once at each anchor step.<br>Reuse them over the following denoising steps.</p></div>
-      <div class="method-intro"><p>Sparse attention is fast, but discarding interactions can change what a model generates. Our controlled oracle comparisons trace this gap to <strong>structural binding</strong>, <strong>inaccurate selection</strong>, and <strong>discarded tail contributions</strong>.</p><p>MC-Sparse addresses all three: select individual KV tokens, group similar queries into GPU-aligned tiles, and reuse exact selections with a cached residual across denoising steps.</p></div>
+      <div class="section-heading"><div><p class="section-kicker">04 / THE IDEA</p><h2 id="method-heading">Select tokens precisely.<br>Reuse across many steps.</h2></div><p>Compute exact token selections once at each anchor step.<br>Reuse them over the following denoising steps.</p></div>
+      <div class="method-intro"><p>The oracle comparisons motivate three design choices: <strong>finer-grained selection</strong>, <strong>accurate attention scoring</strong>, and <strong>compensation for discarded contributions</strong>.</p><p>MC-Sparse addresses all three: select individual KV tokens, group similar queries into GPU-aligned tiles, and reuse exact selections with a cached residual across denoising steps.</p></div>
       <div class="principles">
         <article>
           <span class="principle-number">01</span>
@@ -124,11 +152,11 @@
         </article>
       </div>
       <p class="method-diagram-note">Schematic illustrations. O denotes an attention output; R is the cached dense–sparse residual.</p>
-      <figure class="method-figure"><div class="figure-topline"><span>THE MC-SPARSE PIPELINE</span><a href="assets/papers/MC-Sparse.pdf?v=20261006" data-paper-link target="_blank" rel="noopener">Section 4.4 <span>↗</span></a></div><img src="assets/figures/method.png" alt="At an anchor step, MC-Sparse computes query groups, exact KV indices, and a dense-minus-sparse residual. Reuse steps use this metadata with fresh Q, K, and V, then add the residual." loading="lazy"><figcaption>Cache the metadata. Recompute the attention with current Q, K, and V.</figcaption></figure>
+      <figure class="method-figure"><div class="figure-topline"><span>THE MC-SPARSE PIPELINE</span><a href="assets/figures/method-overview.pdf" target="_blank" rel="noopener">Original figure PDF <span>↗</span></a></div><div class="analysis-figure-scroll" role="region" aria-label="MC-Sparse pipeline diagram; scroll horizontally on small screens" tabindex="0"><img src="assets/figures/method-overview.svg" alt="At an anchor step, MC-Sparse computes query groups, exact KV indices, and a dense-minus-sparse residual. Reuse steps use this metadata with fresh Q, K, and V, then add the residual." loading="lazy"></div><figcaption>Cache the metadata. Recompute the attention with current Q, K, and V.</figcaption></figure>
     </section>
 
     <section class="results-section section" id="results" aria-labelledby="results-heading"><div class="wrap">
-      <div class="section-heading"><div><p class="section-kicker">04 / QUANTITATIVE RESULTS</p><h2 id="results-heading">The fidelity–efficiency balance.</h2></div><p>Higher fidelity to dense-attention outputs.<br>Faster denoising across video and 3D generation.</p></div>
+      <div class="section-heading"><div><p class="section-kicker">05 / QUANTITATIVE RESULTS</p><h2 id="results-heading">The fidelity–efficiency balance.</h2></div><p>Higher fidelity to dense-attention outputs.<br>Faster denoising across video and 3D generation.</p></div>
       <div class="results-layout"><div class="speed-chart"><span class="chart-eyebrow">MINIMAX-H3-BASE · DENOISING SPEEDUP</span><h3>Same model.<br>Less waiting.</h3><div class="bar-item"><div><span>Dense attention</span><strong>1.00×</strong></div><div class="bar-track"><i style="width:55.56%"></i></div></div><div class="bar-item"><div><span>MC-Sparse · 25%</span><strong>1.61×</strong></div><div class="bar-track"><i style="width:89.44%"></i></div></div><div class="bar-item featured"><div><span>MC-Sparse · 15%</span><strong>1.80×</strong></div><div class="bar-track"><i style="width:100%"></i></div></div><p>1.80× speedup <span>Relative to dense attention (FA3)</span></p></div>
       <div class="results-table-panel"><div class="table-heading"><h3 id="table-model-title">MiniMax-H3-Base</h3><label class="sr-only" for="results-model">Results model</label><select id="results-model"><option value="minimax">MiniMax-H3</option><option value="hunyuan">HunyuanVideo</option><option value="wan-t2v">Wan2.1 T2V</option><option value="wan-i2v">Wan2.1 I2V</option><option value="geometry">3D generation</option></select></div><p class="table-subtitle" id="table-setting"></p><div class="table-scroll"><table id="metrics-table"></table></div></div></div>
       <p class="results-note">Results reproduced from Tables 1–2 and Figure 1 of the paper. Speedup measures DiT denoising, including warm-up; condition encoding and VAE decoding are excluded. Video fidelity is measured against dense attention. See the paper for full settings.</p>

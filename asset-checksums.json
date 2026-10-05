@@ -58,5 +58,11 @@
   "assets/posters/mesh-5-reference.webp": "292df5589197b5bbfcfa4cc2c37f2f7424b4eff4a4d9f066aecb80ab647a88da",
   "assets/videos/new_comparison.mp4": "5ce957e715ed52fd80f88155e89642a187a278d6ad1fdda91e29ccba88b1ffab",
   "assets/posters/new_comparison.webp": "eaa6adae7161b368fd89e2b5b3b69cd33a68d224f2c66cce61c0b61d24e7a0dd",
-  "assets/papers/MC-Sparse.pdf": "353088ba21a27abbc10fc4a455ba006a717bfec427d88a7c05aeb6a77273ac8b"
+  "assets/papers/MC-Sparse.pdf": "353088ba21a27abbc10fc4a455ba006a717bfec427d88a7c05aeb6a77273ac8b",
+  "assets/figures/sources-of-gap.svg": "d5d75427551415b987eed43e96aea36d52ee032e8e5988fd06687c8326e15f64",
+  "assets/figures/sources-of-gap.pdf": "e1502bd96dee0a48edf9114d562268b668776e0fa2dc54e67e71b13b57edac28",
+  "assets/figures/oracle-comparisons.svg": "47f9fc3a6408894687aa91e3ee2e70e5e95f588cb87bf0dc814ba763b51a8946",
+  "assets/figures/oracle-comparisons.pdf": "406c019e47f0e3407a9ac6ac7a42a9c29bca04f6e03257e4c8577d38f31a33fe",
+  "assets/figures/method-overview.svg": "8bb607cdfb2b5a23ac9f641f72834cd28433c8ff80e8b8ca3a0bac0c9df147b1",
+  "assets/figures/method-overview.pdf": "373e5291e45d297d7fbe3577bfbd9bee9900e03210978e5bd168f0718ce58378"
 }

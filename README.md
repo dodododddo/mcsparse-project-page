@@ -26,7 +26,7 @@ The included server supports byte-range requests for video seeking and binds to 
 - Orbit, zoom, pan, reset, auto-rotation, normal colors, and clay shading.
 - Keyboard-adjustable dividers. Arrow keys orbit a focused 3D canvas; + / - zoom, and R resets it.
 - Responsive layouts, reduced-motion support, loading progress, retry controls, and geometry image previews.
-- Paper-link placeholders, labeled method diagrams, pipeline illustration, and results from Tables 1–2 and Figure 1.
+- arXiv paper links, labeled method diagrams, pipeline illustration, and results from Tables 1–2 and Figure 1.
 - The performance chart reports relative denoising speedup (1.00×, 1.61×, 1.80×), with no absolute runtime values.
 
 ## Edit the content
@@ -42,7 +42,7 @@ The included server supports byte-range requests for video seeking and binds to 
 - `assets/posters/`: video poster frames, geometry previews from the supplied slides, and case-5 previews rendered directly from the GLBs.
 - `ASSETS.md`: source mapping and naming notes.
 
-Paper URLs are intentionally empty. Fill the `href` values on the five links marked `data-paper-link` in `index.html` when the publication URL is ready. Empty links do not navigate or trigger a download. No paper PDF is bundled with the site.
+The Paper and View paper buttons link to [the paper on arXiv](https://arxiv.org/abs/2610.06801). Download PDF links to the bundled manuscript at `assets/papers/MC-Sparse.pdf`.
 
 ## 3D fidelity and loading
 
